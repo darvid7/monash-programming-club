@@ -1,6 +1,23 @@
 # Week 4
 
 ## Primes
+
+why is it O(n*log(log(n)))
+number of primes < n is around n/loge(n)
+
+first prime is 2, cross off all multiples of 2: 2, 4, 6, 8, ..1000000 // complexity is roughly 10000000/2 as crossing off every 2nd number
+second prime is 3, cross off all multiples of 3: 3, 6, 9, 12, ...1000000 // complexity is roughly 1000000/3
+..
+..
+nth prime is n, cross off all multiples of n: 2n, 3n, ..1000000 // complexity is roughly 1000000/n
+
+complexity is how many numbers we cross off
+
+1000000/2 + 1000000/3 + .. + 1000000/n // note 1 mill = 1
+
+= n(1/2 + 1/3 + .. + 1//n)
+
+
 ```
 x     x   x   x x
 1 2 3 4 5 6 7 8 9 
@@ -31,7 +48,7 @@ isprime[1] = false;
 
 for (int i=2; i*i<=1000000; i++) {
 	if (isprime[i]) {
-		for (int j=i*i; j<= 1000000; j+=1) {
+		for (int j=2*i; j<= 1000000; j+=1) { // get all primes and do stuff
 			isprime[j]=false;
 		}
 	}
@@ -182,3 +199,6 @@ can modify gcd algo to fine numbers am + bm = gcd
 
 if you want the last digit of 7^1000000
 7^10000000 % 10 will give you that.
+
+a = b'
+b =  a' - b'[m/n floored]
