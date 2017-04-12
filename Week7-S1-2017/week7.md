@@ -42,3 +42,4 @@ banana = $ a a a b n n
 
 N(log(N))^2 
 
+Can make this N log (N) if you use radix/bucket sort
