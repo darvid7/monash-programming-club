@@ -158,3 +158,69 @@ Gives query in O(1) constant time
 
 In contest it is easier to code a sparse table
 - O(1) and O(log n) is ~ around the same for contests
+
+Note: if you negate -2^31 you get the same thing back (-2^32)
+
+# DP: Palindromes
+
+string: aababaaab
+
+A palindrome is a string thats the same forwards and backwards i.e. abba, ana, hannah
+
+For every letter, how far can you go to the left and the right so that it is still a palindrome.
+
+DP: Calculates whats the longest possible palindrome at any center.
+
+O(n^2) keep going until you find 2 letters that don't match = longest palindrome.
+
+String with all a's eg: aaaaaaa, keep going until hitting boundaries. Naive O(n^2)
+
+Start at left, work your way right.
+
+Deal with odd len first.
+
+DP: What is longest palindrome with this as our center.
+
+A[i] is the longest palindrome centered at i.
+- look one to left, one to right, if same keep going
+
+		<- <- i -> -> 
+
+## Naive Algorithm O(n^2)
+
+For A[0], centered at 0, nothing to our left, answer = 1
+
+## Better O(n)
+
+[.., L, .., i-1, i, .., R, ..]
+
+- if working along string up to location i
+- lets say at i-1, found a palindrome that is centered at i-1 which spans L to R 
+- if the palindrome exists at i-1, then i must be equal to i-2
+
+if take L to R and flip, palindrome stays the same, reflects over.
+
+[ a0 a1 a2 a3 a4 a5 a6 ] a7
+
+same as
+
+a6 a5 a4 a3 a2 a1 a0
+
+Look at the guy before us that has the farthest end point.
+
+1. use reflection where possible
+2. use naive algorithm when cant
+
+R will always move to the right, if R doesn't move does 1 simple look up.
+
+R moves a linear amount of time, Look ups can be done R times = O(n)
+
+http://www.geeksforgeeks.org/manachers-algorithm-linear-time-longest-palindromic-substring-part-1/
+
+O(n-k) amount of work for first big palindrome, then never do work as use reflection, after that will only do extra work to make it O(n)
+
+Loop over n elements, each of them being a center
+
+O(n+n) = O(2n)
+
+
