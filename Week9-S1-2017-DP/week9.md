@@ -235,3 +235,11 @@ Key insight: you can represent your states pace as the cities you have not visit
 
 n!: n <= 10
 
+## NP == P
+```
+Polynomial time: = n^constant i.e. n^2, n^10, n^1000, n^10000
+NP: Things in exponential time that we don't know if we can do in polynomial time.
+P == NP: Can we do these NP problems that are currently EXP in P time?
+EXP: Exponential time, n^n, n^!
+```
+
