@@ -1,18 +1,18 @@
-"""Use to rename diretories of form Weekx-Sx-YEAR-Topics to YEAR-Sx-Weekx-Topics
+"""Use to rename directories of form Weekx-Sx-YEAR-Topics to YEAR-Sx-Weekx-Topics
 so file explorers lists them in order :)."""
 import os
 import re
 
 def rename():
-    RE_PATTERN = "^Week\d-S\d-\d{4}-\w+"
-
-    re_match = re.compile(RE_PATTERN)
-
+    re_pattern = r"^Week\d-S\d-\d{4}-\w+"
+    re_match = re.compile(re_pattern)
     top_level_dirs = os.listdir()
-    IGNORE = {".git", ".", "..", "rename.py", "resources.md"}
+    ignored = {".git", ".", "..", "rename.py", "resources.md"}
     path = os.getcwd()
 
     for directory in top_level_dirs:
+        if directory in ignored:
+            continue
         if not os.path.isdir(os.path.join(path, directory)):
             continue
         if not re_match.match(directory):
