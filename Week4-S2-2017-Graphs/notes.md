@@ -128,3 +128,73 @@ Note: this is also called flood fill.
 ### Two Colouring
 
 Can we colour a graph with just two colours such that no node is adjacent to a node of the same colour.
+
+```
+B -- R -- B -- R
+          \     \
+           R -- B
+```
+
+Bipartite graphs are graphs where you can split vertices into two sub-categoraies such that the only edges are those that cross over the categories (not within a category).
+
+A graph is two colourable if it contains no odd length cycles
+
+Strategy: Pick a starting vertex, colour it a single colour.
+Once you coulor a vertex, you have to colour it's neighbours the other colour (no decision making).
+The moment you colour a single vertex, the entire graph is forced into a colour.
+
+```
+function two_colour(G):
+  colour = aray[1..N]
+  ok = true
+  for each vertex u = 1..N:
+    if colour[u] is not set:
+      dfs(u, black)
+
+function dfs(u, colour):
+  colour[u] = colour
+  for each edge(u, v) adjacent to u:
+    if colour[v] is not set:
+      def(v, opposite of colour) # Implementation wise using 0/1 as your colour is a good idea as opposite of that is just xor that.
+    else if colour[v] = colour:
+      ok = false # graph is not 2 colourable, can just return false.
+```
+
+### Average length of a walk down a tree.
+
+Whats the expected length of a path (means average length of a path)
+Note: a graph that doesn't have cycles is a tree.
+
+Given a tree, walk to adjacent vertex at random.
+
+What is the expected value of a random walk down the tree?
+
+- never traverse back up.
+
+```
+    0
+  /    \
+0       0
+     /   \
+    0     0
+```
+0 is a node in the tree, traversing to all leaves and averaging the length is wrong as in this case the leaves on the right have less chance of being it.
+
+
+```
+expected_value(v) = 1 / adjacent_and_not_parent(v) * sum of edges and their expected value
+
+driver: dfs(root, none)
+
+function dfs(u, parent):
+  if u is a leaf:
+    |adj(u)| = 1  #
+    return 0
+  answer = 0
+  for each edge (u, v) adj to u:
+    if v != parent:
+      answer += dfs(v, u)  # v's parent is this which is u.
+  answer /= |adj(u)| - 1 if u is not the root (don't have a parent, don't subtract 1)
+  return answer
+Note: |adj(u)| means length
+```
