@@ -20,7 +20,7 @@ complexity is how many numbers we cross off
 
 ```
 x     x   x   x x
-1 2 3 4 5 6 7 8 9 
+1 2 3 4 5 6 7 8 9
 x     x     x  x  x     x
 10 11 12 13 14 15 16 17 18
 
@@ -29,7 +29,7 @@ x     x     x  x  x     x
 How to tell what are primes
 
 start at 1, 1 is not a prime
-then @ 2, check for all numbers, if divisor by 2 is not a prime, 
+then @ 2, check for all numbers, if divisor by 2 is not a prime,
 do same for 3, if divisor cross off
 
 naive algorithm
@@ -92,10 +92,10 @@ O(log(min(m,n))) // runs in log time, is fast is good.
 to use in c++
 __gcd
 
-## 
+##
 
-Say you want to know 7^some_really_big_number % 11 
-7^100000 % 11 
+Say you want to know 7^some_really_big_number % 11
+7^100000 % 11
 
 approach 1:
 - work out number, calculate remainder, but this will have many digits and take 5eva to calculate
@@ -126,13 +126,13 @@ and base cases
 // O(log(exponent))
 // can be done for anything that needs to be multiplied i.e.a  matrix^something
 int power(int base, int exponent, int mod) {
-	
+
 	if (exponent == 0) { // base case.
 		return 1;
 	}
 
 	//if (exponent == 1) { // base case.
- 	//		return base; 
+ 	//		return base;
 	//}
 
 	int res = power(base, exponent/2);
@@ -162,7 +162,7 @@ cpp is not nice like python.
 
 a / b = a * inverse(b) = a * b^-1
 
-b * b^-1 = 1 // multiplicative identity 
+b * b^-1 = 1 // multiplicative identity
 
 7 * x = 1
 
@@ -174,7 +174,7 @@ naive way = try all numbers
 ..
 7 * 8 = 56 % 11 = 1 // inverse of 7 is 8
 
-so 
+so
 
 5/7 = 5 * 7^-1
 	= 5 * 8 // inverse of 7 is 8 based on above

@@ -4,7 +4,7 @@ Use when things change in the array.
 If things don't change build a cumulative sum array.
 
 - bit manipulation techniques
-- binary increases in digits faster than decimal (more digits, dec 9 = 1001 = 4 digits) 
+- binary increases in digits faster than decimal (more digits, dec 9 = 1001 = 4 digits)
 - idea: can take off bits and get to 0
 
 10 | 1010
@@ -15,7 +15,7 @@ Fenwick Tree goal (ft): Able to do sum over arrays (sum within array indices) an
 
 Fenwick Tree is 1 indexed, so plus 1 for everything at the end.
 
-Eg: 
+Eg:
 
 Array of numbers, know sum of a range of numbers in that array.
 
@@ -47,7 +47,7 @@ sum of number in range [1, 7].
 	6 in binary = 110
 3. Take least sig 1 = 100 = 4 in decimal, go to in dex 4, get value 2.
 	4 in binary = 100
-4. Take least sig 1 = 000 = 0 in decimal + 1 - index 1 take value 0. 
+4. Take least sig 1 = 000 = 0 in decimal + 1 - index 1 take value 0.
 
 Add numbers 3 + 7 + 2 = 12
 
@@ -184,7 +184,7 @@ DP: What is longest palindrome with this as our center.
 A[i] is the longest palindrome centered at i.
 - look one to left, one to right, if same keep going
 
-		<- <- i -> -> 
+		<- <- i -> ->
 
 ## Naive Algorithm O(n^2)
 
@@ -195,7 +195,7 @@ For A[0], centered at 0, nothing to our left, answer = 1
 [.., L, .., i-1, i, .., R, ..]
 
 - if working along string up to location i
-- lets say at i-1, found a palindrome that is centered at i-1 which spans L to R 
+- lets say at i-1, found a palindrome that is centered at i-1 which spans L to R
 - if the palindrome exists at i-1, then i must be equal to i-2
 
 if take L to R and flip, palindrome stays the same, reflects over.
@@ -222,5 +222,3 @@ O(n-k) amount of work for first big palindrome, then never do work as use reflec
 Loop over n elements, each of them being a center
 
 O(n+n) = O(2n)
-
-
