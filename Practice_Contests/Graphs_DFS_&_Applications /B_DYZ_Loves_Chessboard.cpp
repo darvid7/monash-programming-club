@@ -4,7 +4,7 @@
 
 #include "stdc++.h"
 
-// To compile: $ g++ -Wall A_New_Year_Transportation.cpp -o A
+// To compile: $ g++ -std=c++11 -Wall file.cpp -o F
 
 using namespace std;
 // vector is a dynamic list, lists need space declared.
@@ -18,11 +18,11 @@ typedef vector<pair<int, int> > vpi;
 
 int rows, cols;
 
-vpi getEdges(int row, int col) {
+vpi getEdges(int row, int col, vvi graph) {
   // Only can go to cells that share a common edge.
   vpi edges;
   // edges.resize(8);
-  if (row < rows) {
+  if (row < rows - 1) {
     // Check below.
     // Add directly below.
     pair<int, int> p = {row + 1, col};
@@ -35,7 +35,7 @@ vpi getEdges(int row, int col) {
     edges.push_back(p);
   }
   // Check to the right.
-  if (col < cols ) {
+  if (col < cols -1 ) {
     // Can go to the right.
     pair<int, int> p = {row, col + 1};
     edges.push_back(p);
@@ -49,9 +49,9 @@ vpi getEdges(int row, int col) {
   return edges;
 }
 
-bool twoColouringDfs(int curRow, int curCol, vvi graph, char lastColour) {
+bool twoColouringDfs(int curRow, int curCol, vvi& graph, char lastColour) {
   char currentNodeValue = graph[curRow][curCol];
-
+  // cout << "Current coords: (" << curRow << ", " << curCol << ")" << endl;
   if (currentNodeValue == '.') {
     char oldColor = lastColour;
     // Set this value to a colour.
@@ -63,28 +63,54 @@ bool twoColouringDfs(int curRow, int curCol, vvi graph, char lastColour) {
     // Set this dot to some colour.
     graph[curRow][curCol] = lastColour;
 
-    vpi adjacentCells = getEdges(curRow, curCol);
+    // cout << ">>a graph>>" << endl;
+    for (vi v : graph) {
+      // Note: No type issues by typing it as ints.
+      for (char x : v) {
+
+        // cout << x << " ";
+      }
+      // cout << endl;
+    }
+    // cout << "<<end graph"<< endl;
+
+    vpi adjacentCells = getEdges(curRow, curCol, graph);
+    // For each adjacent cell, explore as far as possible.
     for (int i = 0; i < adjacentCells.size(); i++) {
       pair<int, int> p = adjacentCells[i];
       int nextRow = p.first;
       int nextCol = p.second;
+      // cout << "adj coord: (" << nextRow << ", " << nextCol << ")" << endl;
+      char c = graph[nextRow][nextCol];
+
       // Bad space.
-      if (graph[nextRow][nextCol] == '-') {
+      if (c == '-') {
         continue;
       }
 
-      if (graph[nextRow][nextCol] == lastColour) {
+      if (c == oldColor) {
         // Bad colouring.
-        return false;
+        continue;
       }
 
-      if (graph[nextRow][nextCol] == '.') {
+      if (c == '.') {
         // Do dfs.
+        // cout << "exploring: (" << nextRow << ", " << nextCol << ")" << endl;
         twoColouringDfs(nextRow, nextCol, graph, lastColour);
       } else {
-        cout << "WTF MAN" << endl;
+        // cout << "WTF MAN: " << c << endl;
       }
     }
+    // // cout << "b graph" << endl;
+    // for (vi v : graph) {
+    //   // Note: No type issues by typing it as ints.
+    //   for (char x : v) {
+    //
+    //     // cout << x << " ";
+    //   }
+    //   // cout << endl;
+    // }
+
     return true;
   }
   return true;
@@ -102,19 +128,27 @@ int main() {
     adjacencyMatrix[i].resize(cols);
   }
 
+  vpi dots;
+
   string aRow;
   for (int i = 0; i < rows; i++) {
     cin >> aRow;
     for (string::size_type j = 0; j < aRow.size(); j++) {
         adjacencyMatrix[i][j] = aRow[j];
+        if (aRow[j] == '.') {
+          pair<int, int> p = {i, j};
+          dots.push_back(p);
+        }
     }
-
-
   }
 
   char lastColour = 'B';
 
-  twoColouringDfs(0, 0, adjacencyMatrix, lastColour);
+  for (int i = 0; i < dots.size(); i++) {
+    // // cout << "dots value of i: " << i << " is (" << dots[i].first << ", " << dots[i].second << ")" << endl;
+    twoColouringDfs(dots[i].first, dots[i].second, adjacencyMatrix, lastColour);
+
+  }
 
   // Print matrix.
   for (vi v : adjacencyMatrix) {

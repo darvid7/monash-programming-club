@@ -1,3 +1,6 @@
+import sys
+sys.setrecursionlimit(1000000000)
+
 number_of_cells, target_cell = [int(x) for x in input().split()]
 start_cell = 1
 # The ith portal connects cell i and cell i + a[i], 1 <= i <= n-1
