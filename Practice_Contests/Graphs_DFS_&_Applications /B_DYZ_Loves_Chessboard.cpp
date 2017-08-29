@@ -1,8 +1,8 @@
 // TODO: Use this on linux:
-// #include <bits/stdc++.h>
+#include <bits/stdc++.h>
 // Use below on osx:
 
-#include "stdc++.h"
+// #include "stdc++.h"
 
 // To compile: $ g++ -std=c++11 -Wall file.cpp -o F
 
@@ -155,7 +155,7 @@ int main() {
     // Note: No type issues by typing it as ints.
     for (char x : v) {
 
-      cout << x << " ";
+      cout << x;
     }
     cout << endl;
   }
