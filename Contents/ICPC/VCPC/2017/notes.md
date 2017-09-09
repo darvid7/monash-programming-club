@@ -206,6 +206,7 @@ Find smallest circle that encloses every point.
 Read up: https://en.wikipedia.org/wiki/Smallest-circle_problem
 
 ## Stuff above this seems doable, stuff below is like :fearful: :cry: :sob: :scream:
+
 ## J. Juggling Errands
 
 250 * 250 grid of points (250^2 nodes)
