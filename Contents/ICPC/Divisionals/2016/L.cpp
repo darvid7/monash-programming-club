@@ -4,110 +4,107 @@ using namespace std;
 
 typedef vector<int> vi;
 typedef vector<vi> vvi;
+typedef pair<int, int> pii;
 
-// -1 means don't look at it, 0 is a colour, 1 is a colour, -2 means don't need to colour.
-vi nodes(2000, -1); // vector<int>(size, default int value).
+int colour[2005];
+int memo[2005][2005];
+vector<pii> dpData;
+vvi adjList(200005);
 
-vvi adjlist(2000);
+pii dfs(int u, int c) {
+    pii result = {0, 0};
+    colour[u] = c;
+    int curCol;
+    if (c == 1) {
+        result.first += 1;
+        curCol = 2;
+    }
+    else {
+        result.second += 1;
+        curCol = 1;
+    }
 
-bool two_colouring(int n, int colour) {
-	if (nodes[n] > -1) {
-		// Already coloured.
-		return true;		
-	}
-	
-	nodes[n] = colour;
-	// vector.size() returns size_t which is unsigned int.
-	for(int adj_i = 0; adj_i < (int) adjlist[n].size(); adj_i++) {
-		int adj_n = adjlist[n][adj_i];
-		if (nodes[adj_n] == colour) {
-			cout << "node: " << n << " and " << adj_n << " have same colour " << colour << endl;
-			return false;		
-		}
-		if (nodes[adj_n] == -1) {
-			cout << "WTF " << endl;		
-		}
-
-		bool can_colour = two_colouring(adj_n, colour ^ 1);
-		if (can_colour == false) {
-			return false;		
-		}
-	}
-	return true;
+    for (auto&v : adjList[u]) {
+        if (!colour[v]) {
+            pii tmp = dfs(v, curCol);
+            result.first += tmp.first;
+            result.second += tmp.second;
+        }
+        else if (colour[v] == c) {
+            cout << "NO" << endl;
+            exit(0);
+        }
+    }
+    int a = min(result.first, result.second), b = max(result.first, result.second);
+    return {a, b};
 }
 
 
 int main() {
-	int L, R, N, C;
-	cin >> L >> R >> N >> C;
+    int L, R, N, C;
+    cin >> L >> R >> N >> C;
 
-	// Make graph.
-	for(int c = 0; c < C; c++) {
-		int x, y;
-		cin >> x >> y;
-		adjlist[x].push_back(y);
-		adjlist[y].push_back(x);	
-	}
-	for(int i = 0; i < N; i++) {
-		nodes[i] = -2;	
-	}
+    if (N > L+R) {
+        cout << "NO" << endl;
+        return 0;
+    }
 
-	for(int n = 0; n < N; n++) {
-		bool can_colour = two_colouring(n, 1);
-		if (can_colour == false) {
-			cout << "NO here, idx: " << n << endl;
-			return 0;		
-		}
-	}
-	
-	cout << "HERE ARE MY NODES" << endl;
-	
-	for(int idx = 0; idx < N; idx++) {
-		cout << "index: " << idx << " has colour " << nodes[idx] << endl;
-	}
-	
-	// Can avoid conflitcs, check capacity.
-	int colour_1 = 0;
-	int colour_0 = 0;
-	int colour_less = 0;
-	
-	colour_1 = count(nodes.begin(), nodes.end(), 1);
-	colour_0 = count(nodes.begin(), nodes.end(), 0);
-	colour_less = count(nodes.begin(), nodes.end(), -2);
-	
-	cout << "colour 0: " << colour_0 << endl;
-	cout << "colour 1: " << colour_1 << endl;
-	cout << "colourless: " << colour_less << endl;
+    for (int i = 0; i < C; i++) {
+        int a, b;
+        cin >> a >> b;
+        adjList[a].push_back(b);
+        adjList[b].push_back(a);
+    }
 
-	int left_remaining; 
-	int right_remaining; 
-	
-	// Try put colour 0 in L.
-	left_remaining = L - colour_0;
-	right_remaining = R - colour_1;
-	if (left_remaining >= 0 and right_remaining >= 0) {
-		int left_over = left_remaining + right_remaining;
-		if (left_over >= colour_less) {
-			cout << "YES" << endl;
-		} else {
-			cout << "NO" << endl;
-		}
-		return 0;
-	}
+    dpData.push_back({0, 0});
 
-	// Try out colour 1 in L.
-	left_remaining = L - colour_1;
-	right_remaining = R - colour_0;
-	if (left_remaining >= 0 and right_remaining >= 0) {
-		int left_over = left_remaining + right_remaining;
-		if (left_over >= colour_less) {
-			cout << "YES" << endl;
-		} else {
-			cout << "NO" << endl;
-		}
-		return 0;
-	}
+    for (int i = 0; i < N; i++) {
+        for (auto& u : adjList[i]) {
+            if (!colour[i]) {
+                dpData.push_back(dfs(u, 1));
+            }
+        }
+    }
 
-	cout << "NO" << endl;
-	return 0;
+    int sum = 0, check = 0;
+    for (pii p : dpData) {
+        sum += p.first;
+        check += p.second - p.first;
+    }
+
+    int newL = L-sum, newR = R-sum;
+    int tmp = max(newL, newR);
+
+    memo[0][0] = 1;
+    for (int i = 1; i < dpData.size(); i++) {
+        pii p = dpData[i];
+        int num = p.second-p.first;
+        for (int j = 0; j <= tmp; j++) {
+            if (j-num > 0) {
+                if (memo[i-1][j-num]) memo[i][j] = 1;
+            }
+            else if (j-num == 0) memo[i][j] = 1;
+            if (memo[i-1][j]) memo[i][j] = 1;
+        }
+    }
+
+    // for (int i = 0; i < dpData.size(); i++) {
+    //     for (int j = 0; j <= tmp; j++) {
+    //         cout << memo[i][j] << " ";
+    //     }
+    //     cout << endl;
+    // }
+
+    for (int i = 0; i <= tmp; i++) {
+        if (memo[dpData.size()-1][i]) {
+            int remaining = check - i;
+            if (min(i, remaining) <= min(newL, newR) && max(i, remaining) <= tmp) {
+                cout << "YES" << endl;
+                return 0;
+            }
+        }
+    }
+    cout << "NO" << endl;
+
+    return 0;
 }
