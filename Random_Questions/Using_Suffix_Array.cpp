@@ -81,10 +81,18 @@ struct suffix_array {
         bool operator()(const string& p, int i) const { return s.compare(i,m,p,j,m) > 0; }
     };
 
+    // Returns
     pair<vector<int>::iterator,std::vector<int>::iterator> find(const string& pat, int j=0) {
         return equal_range(sarray.begin(), sarray.end(), pat, Comp(str,pat.size(),j));
     }
-};
+
+    /*
+    pair<int, int> find(const string& pat, int j=0) {
+        auto p = equal_range(sarray.begin(), sarray.end(), pat, Comp(str,pat.size(),j));
+        pair<int, int> res = {p.first-sarray.begin(), p.second -sarray.begin()};
+        return res;
+    }
+    */
 
 int main() {
     suffix_array my_suffix_array("hello a");
