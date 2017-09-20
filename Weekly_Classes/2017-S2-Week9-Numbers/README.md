@@ -31,9 +31,9 @@ There is only 1 way to write each number as a factor of primes.
 
 Any number `n` can be expressed as
 
-`n = p<sub>1</sub><sup>alpha1</sup> * p<sub>2</sub><sup>alpha2</sup> * p<sub>2</sub><sup>alpha2</sup> .. p<sub>k</sub><sup>alphak</sup>`
+n = p<sub>1</sub><sup>alpha1</sup> * p<sub>2</sub><sup>alpha2</sup> * p<sub>2</sub><sup>alpha2</sup> .. p<sub>k</sub><sup>alphak</sup>
 
-This means that `m` is a divisor if and only if `beta<sub>i</sub> <= alpha<sub>i</sub>`
+This means that `m` is a divisor if and only if beta<sub>i</sub> <= alpha<sub>i</sub>
 
 `n = p1^a1 * p2^a2 ... pk^ak`
 
