@@ -225,13 +225,12 @@ f(n):
 ```
 
 Complexity:
-`O(n log(log(n))) +  O (log n)`
-
+`O(n log(log(n))) +  O (log n)` here LHS < RHS
 Worst case = n=2^k
 
 Complexity is `O(log n)`
 
-## In ode binder
+## In code binder
 
 ### Miller - Rabin (prime tester)
 
